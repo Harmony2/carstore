@@ -3,33 +3,29 @@ kivy.require('1.10.1')
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.gridlayout import GridLayout
+from kivy.uix.boxlayout import BoxLayout
 
 Builder.load_string("""
 <But1@Button>:
 	font_size: 32
-	size: 50, 50
 
 <Menu>:
-	id: Menu
-	rows: 3
-	padding: 20
-	spacing: 30
+	BoxLayout:
+		orientation: "vertical"
+		Label:
+			text: 'Menu'
+			font_size: 40
 
-	BoxLayout:
-		But1:
-			text: "Sell"
-			on_press:
-				root.manager.transition.direction = "right"
-				root.manager.transition.duration = 0.5
-				root.manager.current = "Add"
-	BoxLayout:
-		But1:
-			text: "Sell"
-			on_press:
-				root.manager.transition.direction = "right"
-				root.manager.transition.duration = 0.5
-				root.manager.current = "Add"
+		BoxLayout:
+			But1:
+				text: "Sell"
+				on_press:
+					root.manager.transition.direction = "right"
+					root.manager.transition.duration = 0.7
+					root.manager.current = "Add"
+		BoxLayout:
+			But1:
+				text: "Quit"
 
 <Add>:
 	BoxLayout:
@@ -37,7 +33,7 @@ Builder.load_string("""
 			text: "Menu"
 			on_press:
 				root.manager.transition.direction = "left"
-				root.manager.transition.duration = 0.5
+				root.manager.transition.duration = 0.7
 				root.manager.current = "Menu"
 """)
 
