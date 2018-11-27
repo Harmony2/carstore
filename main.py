@@ -5,10 +5,14 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.popup import Popup
-from kivy.uix.button import Button
+from kivy.uix.listview import ListItemButton
+from kivy.properties import ObjectProperty
 
 Builder.load_string("""
 #:import F kivy.factory.Factory
+#:import ListAdapter kivy.adapters.listadapter.ListAdapter
+#:import ListItemButton kivy.uix.listview.ListItemButton
+
 <Quitpop@Popup>:
 	id: quitpop
 	title: "Quit"
@@ -75,7 +79,15 @@ class Menu(Screen):
 		popup.open()
 
 class Cars(Screen):
-	pass
+	def addCar(self):
+		pass
+
+	def addCar(self):
+		pass
+
+	def sellCar(self):
+		pass
+
 
 scrmanager = ScreenManager()
 
