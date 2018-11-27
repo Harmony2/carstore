@@ -4,30 +4,60 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.popup import Popup
+from kivy.uix.button import Button
 
 Builder.load_string("""
+#:import F kivy.factory.Factory
+<Quitpop@Popup>:
+	id: quitpop
+	title: "Quit"
+	BoxLayout:
+		orientation: "vertical"
+		Label:
+			text: "Are you sure you want to quit?"
+			font_size: 40
+		But1:
+			text: "quit"
+			on_press: quit()
+		But1:
+			text: "cancel"
+			on_press: quitpop.dismiss()
 <But1@Button>:
 	font_size: 32
 
 <Menu>:
+	id: menu
 	BoxLayout:
 		orientation: "vertical"
-		Label:
-			text: 'Menu'
-			font_size: 40
+		BoxLayout:
+			Label:
+				text: "Menu"
+				font_size:40
 
 		BoxLayout:
 			But1:
-				text: "Sell"
+				text: "Cars"
 				on_press:
 					root.manager.transition.direction = "right"
 					root.manager.transition.duration = 0.7
-					root.manager.current = "Add"
+					root.manager.current = "Cars"
+		BoxLayout:
+			But1:
+				text: "Customers"
+
+		BoxLayout:
+			But1:
+				text: "Employees"
+
 		BoxLayout:
 			But1:
 				text: "Quit"
+				on_press: F.Quitpop().open()
 
-<Add>:
+
+<Cars>:
+	id: cars
 	BoxLayout:
 		Button:
 			text: "Menu"
@@ -38,15 +68,19 @@ Builder.load_string("""
 """)
 
 class Menu(Screen):
-	pass
+	def leave(self):
+		popup = Popup(title='Quit?',
+				content=Button(text="cancel"),
+				size_hint=(None,None), size=(400,400))
+		popup.open()
 
-class Add(Screen):
+class Cars(Screen):
 	pass
 
 scrmanager = ScreenManager()
 
 scrmanager.add_widget(Menu(name="Menu"))
-scrmanager.add_widget(Add(name="Add"))
+scrmanager.add_widget(Cars(name="Cars"))
 
 
 class RootApp(App):
