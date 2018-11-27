@@ -4,6 +4,7 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
 from kivy.uix.listview import ListItemButton
 from kivy.properties import ObjectProperty
@@ -12,7 +13,6 @@ Builder.load_string("""
 #:import F kivy.factory.Factory
 #:import ListAdapter kivy.adapters.listadapter.ListAdapter
 #:import ListItemButton kivy.uix.listview.ListItemButton
-
 <Quitpop@Popup>:
 	id: quitpop
 	title: "Quit"
@@ -62,9 +62,29 @@ Builder.load_string("""
 
 <Cars>:
 	id: cars
-	BoxLayout:
+	orientation: 'vertical'
+	FloatLayout:
+		TextInput:
+			id: plate
+			size_hint: .2, .05
+			pos_hint: {'x':.01,'y':.9}
+			multiline: False
+		TextInput:
+			id: plate
+			size_hint: .2, .05
+			pos_hint: {'x':.22,'y':.9}
+			multiline: False
+		TextInput:
+			id: plate
+			size_hint: .2, .05
+			pos_hint: {'x':.43,'y':.9}
+			multiline: False
+
 		Button:
+			pos_hint: {'x':.9, 'y':.95}
+			size_hint: .1, .05
 			text: "Menu"
+			font_size:20
 			on_press:
 				root.manager.transition.direction = "left"
 				root.manager.transition.duration = 0.7
