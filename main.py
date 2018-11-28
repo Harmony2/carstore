@@ -80,6 +80,28 @@ Builder.load_string("""
 			pos_hint: {'x':.43,'y':.9}
 			multiline: False
 
+		Label:
+			text: "Plate"
+			pos_hint: {'x':.01,'y':.87}
+			font_size: 25
+			size_hint: (.2,.2)
+		Label:
+			text: "Car"
+			pos_hint: {'x':.22,'y':.87}
+			font_size: 25
+			size_hint: (.2,.2)
+		Label:
+			text: "Price"
+			pos_hint: {'x':.43,'y':.87}
+			font_size: 25
+			size_hint: (.2,.2)
+
+
+		Button:
+			text: "Add Car"
+			pos_hint:{'x':.64,'y':.9}
+			size_hint: (.1,.05)
+			font_size:20
 		Button:
 			pos_hint: {'x':.9, 'y':.95}
 			size_hint: .1, .05
