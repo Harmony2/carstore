@@ -142,13 +142,21 @@ class Menu(Screen):
 class Sell(Screen):
 	#@mainthread
 	flags = []
+
 	def on_pre_enter(self):
-		for i in range(0,20):
-			if i not in self.flags:
-				btn = Button(text=str(i), font_size=32)
+		f = open('carros.txt','r')
+		a = f.read()
+		f.close()
+		a = a.split('\n')
+		a.pop()
+		for i in range(0,len(a)):
+			a[i] = a[i].split(":")
+		for i in range(0,len(a)):
+			if a[i] not in self.flags:
+				btn = Button(text=str(a[i][0]), font_size=32)
 				btn.bind(on_press=self.oi)
 				self.ids.grid.add_widget(btn)
-				self.flags.append(i)
+				self.flags.append(a[i][0])
 
 	def oi(self,*args):
 		print(args[0].text)
