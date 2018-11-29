@@ -5,9 +5,12 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 from kivy.uix.listview import ListItemButton
 from kivy.properties import ObjectProperty
+from kivy.uix.recycleview import RecycleView
+from kivy.clock import mainthread
 
 Builder.load_string("""
 #:import F kivy.factory.Factory
@@ -49,6 +52,10 @@ Builder.load_string("""
 		BoxLayout:
 			But1:
 				text: "Customers"
+				on_press:
+					root.manager.transition.direction = "right"
+					root.manager.transition.duration = 0.7
+					root.manager.current = "Sell"
 
 		BoxLayout:
 			But1:
@@ -58,6 +65,22 @@ Builder.load_string("""
 			But1:
 				text: "Quit"
 				on_press: F.Quitpop().open()
+<Sell>:
+	ScrollView:
+		GridLayout:
+			cols: 1
+			id: grid
+			spacing: 10,10
+			padding: 10,10
+			size_hint_y: None
+			height: 2000
+			Button:
+				text: "Menu"
+				font_size:32
+				on_press:
+					root.manager.transition.direction = "left"
+					root.manager.transition.duration = 0.7
+					root.manager.current = "Menu"
 
 
 <Cars>:
@@ -113,12 +136,22 @@ Builder.load_string("""
 				root.manager.current = "Menu"
 """)
 
+flag0 = False
 class Menu(Screen):
-	def leave(self):
-		popup = Popup(title='Quit?',
-				content=Button(text="cancel"),
-				size_hint=(None,None), size=(400,400))
-		popup.open()
+	pass
+
+class Sell(Screen):
+	@mainthread
+	def on_pre_enter(self):
+	#	self.ids.grid.clear_widgets()
+	#	menu = Button(text="Menu", font_size=32)
+	#	menu.bind(on_press=(app.root.current="menu"))
+		for i in range(0,20):
+			btn = Button(text=str(i), font_size=32)
+			btn.bind(on_press=self.oi)
+			self.ids.grid.add_widget(btn)
+	def oi(self,*args):
+		print(args[0].text)
 
 class Cars(Screen):
 	def addCar(self):
@@ -134,6 +167,7 @@ class Cars(Screen):
 scrmanager = ScreenManager()
 
 scrmanager.add_widget(Menu(name="Menu"))
+scrmanager.add_widget(Sell(name="Sell"))
 scrmanager.add_widget(Cars(name="Cars"))
 
 
