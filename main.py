@@ -13,6 +13,7 @@ from kivy.properties import ObjectProperty
 from kivy.uix.recycleview import RecycleView
 from kivy.clock import mainthread
 from kivy.uix.textinput import TextInput
+from functools import partial
 
 Builder.load_string("""
 #:import F kivy.factory.Factory
@@ -134,7 +135,8 @@ class Sell(Screen):
 	#@mainthread
 	flags = []
 
-	def on_pre_enter(self):
+	def on_enter(self):
+		self.clear_widgets
 		f = open('carros.txt','r')
 		a = f.read()
 		f.close()
@@ -178,7 +180,9 @@ class Sell(Screen):
 
 				box.add_widget(buyerl)
 				box.add_widget(buyeri)
-
+				#buttoncallback = partial(self.gratulation, g.text)
+				removerino = partial(self.remove, a[i][0],a[i][1],a[i][2])
+				sell.bind(on_press=removerino)
 				box.add_widget(sell)
 				box.add_widget(bot)
 				
@@ -188,8 +192,18 @@ class Sell(Screen):
 				self.ids.grid.add_widget(btn)
 				self.flags.append(a[i][0])
 
-	def oi(self,*args):
-		print(args[0].text)
+	def remove(self,plate,typee,price,*args):
+			f = open('carros.txt','r')
+			a = f.readlines()
+			f.close()
+			s = '%s:%s:%s\n'%(plate,typee,price)
+			f = open('carros.txt','w')
+			for i in a:
+				print(i)
+				if i != s:
+					f.write(i)
+			f.close()
+			print(a)
 
 class Cars(Screen):
 	def add(self,plate,tipo,price):
