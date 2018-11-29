@@ -136,20 +136,20 @@ Builder.load_string("""
 				root.manager.current = "Menu"
 """)
 
-flag0 = False
 class Menu(Screen):
 	pass
 
 class Sell(Screen):
-	@mainthread
+	#@mainthread
+	flags = []
 	def on_pre_enter(self):
-	#	self.ids.grid.clear_widgets()
-	#	menu = Button(text="Menu", font_size=32)
-	#	menu.bind(on_press=(app.root.current="menu"))
 		for i in range(0,20):
-			btn = Button(text=str(i), font_size=32)
-			btn.bind(on_press=self.oi)
-			self.ids.grid.add_widget(btn)
+			if i not in self.flags:
+				btn = Button(text=str(i), font_size=32)
+				btn.bind(on_press=self.oi)
+				self.ids.grid.add_widget(btn)
+				self.flags.append(i)
+
 	def oi(self,*args):
 		print(args[0].text)
 
