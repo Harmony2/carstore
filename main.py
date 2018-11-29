@@ -12,6 +12,7 @@ from kivy.uix.listview import ListItemButton
 from kivy.properties import ObjectProperty
 from kivy.uix.recycleview import RecycleView
 from kivy.clock import mainthread
+from kivy.uix.textinput import TextInput
 
 Builder.load_string("""
 #:import F kivy.factory.Factory
@@ -45,14 +46,14 @@ Builder.load_string("""
 
 		BoxLayout:
 			But1:
-				text: "Cars"
+				text: "Add Car"
 				on_press:
 					root.manager.transition.direction = "right"
 					root.manager.transition.duration = 0.4
 					root.manager.current = "Cars"
 		BoxLayout:
 			But1:
-				text: "Customers"
+				text: "Cars"
 				on_press:
 					root.manager.transition.direction = "right"
 					root.manager.transition.duration = 0.4
@@ -86,55 +87,44 @@ Builder.load_string("""
 
 <Cars>:
 	id: cars
-	orientation: 'vertical'
-	FloatLayout:
-		TextInput:
-			id: plate
-			size_hint: .2, .05
-			pos_hint: {'x':.01,'y':.9}
-			multiline: False
-		TextInput:
-			id: plate
-			size_hint: .2, .05
-			pos_hint: {'x':.22,'y':.9}
-			multiline: False
-		TextInput:
-			id: plate
-			size_hint: .2, .05
-			pos_hint: {'x':.43,'y':.9}
-			multiline: False
-
-		Label:
-			text: "Plate"
-			pos_hint: {'x':.01,'y':.87}
-			font_size: 25
-			size_hint: (.2,.2)
-		Label:
-			text: "Car"
-			pos_hint: {'x':.22,'y':.87}
-			font_size: 25
-			size_hint: (.2,.2)
-		Label:
-			text: "Price"
-			pos_hint: {'x':.43,'y':.87}
-			font_size: 25
-			size_hint: (.2,.2)
-
-
-		Button:
-			text: "Add Car"
-			pos_hint:{'x':.64,'y':.9}
-			size_hint: (.1,.05)
-			font_size:20
-		Button:
-			pos_hint: {'x':.9, 'y':.95}
-			size_hint: .1, .05
+	BoxLayout:
+		orientation: "vertical"
+		But1:
 			text: "Menu"
-			font_size:20
 			on_press:
 				root.manager.transition.direction = "left"
 				root.manager.transition.duration = 0.4
 				root.manager.current = "Menu"
+		Label:
+			text: "Plate"
+			font_size: 32
+		TextInput:
+			id: plate
+			multiline: False
+
+		Label:
+			text: "type"
+			font_size: 32
+		TextInput:
+			id: type
+			multiline: False
+
+		Label:
+			text: "Price"
+			font_size: 32
+		TextInput:
+			id: price
+			multiline: False
+
+		But1:
+			text: "Add"
+			on_press:
+				cars.add(plate.text,type.text,price.text)
+				root.manager.transition.direction = "left"
+				root.manager.transition.duration = 0.4
+				root.manager.current = "Menu"
+
+
 """)
 
 class Menu(Screen):
@@ -149,6 +139,7 @@ class Sell(Screen):
 		a = f.read()
 		f.close()
 		a = a.split('\n')
+		a.pop()
 		for i in range(0,len(a)):
 			a[i] = a[i].split(":")
 		for i in range(0,len(a)):
@@ -159,7 +150,8 @@ class Sell(Screen):
 				bot = BoxLayout()
 				pop = Popup(title='HELP',content=box)
 
-				cancel = Button(text="Return",on_release=pop.dismiss)
+				cancel = Button(text="Return",font_size=32,on_release=pop.dismiss)
+				sell = Button(text="Sell",font_size=32)
 				bot.add_widget(cancel)
 				
 
@@ -178,9 +170,17 @@ class Sell(Screen):
 				box.add_widget(pricel)
 				box.add_widget(price)
 
+				sep = Label(text='----------------------------------------',font_size=30)
+				box.add_widget(sep)
 
+				buyerl = Label(text='Insert Buyer\'s unique ID:', font_size=32)
+				buyeri = TextInput(multiline=False)
+
+				box.add_widget(buyerl)
+				box.add_widget(buyeri)
+
+				box.add_widget(sell)
 				box.add_widget(bot)
-
 				
 				btn.bind(on_press=pop.open)
 
@@ -192,15 +192,10 @@ class Sell(Screen):
 		print(args[0].text)
 
 class Cars(Screen):
-	def addCar(self):
-		pass
-
-	def addCar(self):
-		pass
-
-	def sellCar(self):
-		pass
-
+	def add(self,plate,tipo,price):
+		f = open('carros.txt','a+')
+		f.write("%s:%s:%s\n"%(plate,tipo,price))
+		f.close()
 
 scrmanager = ScreenManager()
 
