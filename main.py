@@ -6,6 +6,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.button import Button
+from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 from kivy.uix.listview import ListItemButton
 from kivy.properties import ObjectProperty
@@ -47,14 +48,14 @@ Builder.load_string("""
 				text: "Cars"
 				on_press:
 					root.manager.transition.direction = "right"
-					root.manager.transition.duration = 0.7
+					root.manager.transition.duration = 0.4
 					root.manager.current = "Cars"
 		BoxLayout:
 			But1:
 				text: "Customers"
 				on_press:
 					root.manager.transition.direction = "right"
-					root.manager.transition.duration = 0.7
+					root.manager.transition.duration = 0.4
 					root.manager.current = "Sell"
 
 		BoxLayout:
@@ -79,7 +80,7 @@ Builder.load_string("""
 				font_size:32
 				on_press:
 					root.manager.transition.direction = "left"
-					root.manager.transition.duration = 0.7
+					root.manager.transition.duration = 0.4
 					root.manager.current = "Menu"
 
 
@@ -132,7 +133,7 @@ Builder.load_string("""
 			font_size:20
 			on_press:
 				root.manager.transition.direction = "left"
-				root.manager.transition.duration = 0.7
+				root.manager.transition.duration = 0.4
 				root.manager.current = "Menu"
 """)
 
@@ -148,13 +149,42 @@ class Sell(Screen):
 		a = f.read()
 		f.close()
 		a = a.split('\n')
-		a.pop()
 		for i in range(0,len(a)):
 			a[i] = a[i].split(":")
 		for i in range(0,len(a)):
-			if a[i] not in self.flags:
+			if a[i][0] not in self.flags:
 				btn = Button(text=str(a[i][0]), font_size=32)
-				btn.bind(on_press=self.oi)
+
+				box = BoxLayout(orientation="vertical")
+				bot = BoxLayout()
+				pop = Popup(title='HELP',content=box)
+
+				cancel = Button(text="Return",on_release=pop.dismiss)
+				bot.add_widget(cancel)
+				
+
+				platel = Label(text='Plate:',font_size=30)
+				plate = Label(text=a[i][0],font_size=25)
+				box.add_widget(platel)
+				box.add_widget(plate)
+
+				typel = Label(text='Car:',font_size=30)
+				typee = Label(text=a[i][1],font_size=25)
+				box.add_widget(typel)
+				box.add_widget(typee)
+
+				pricel = Label(text='Price:',font_size=30)
+				price = Label(text=a[i][2],font_size=25)
+				box.add_widget(pricel)
+				box.add_widget(price)
+
+
+				box.add_widget(bot)
+
+				
+				btn.bind(on_press=pop.open)
+
+
 				self.ids.grid.add_widget(btn)
 				self.flags.append(a[i][0])
 

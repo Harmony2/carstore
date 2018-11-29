@@ -1,0 +1,12 @@
+abc-1234:audi:17000
+abe-4321:gol:19000
+abc-1211:fon:666
+abc-1212:fon:666
+abc-1213:fon:666
+abc-1214:fon:666
+abc-1215:fon:666
+abc-1216:fon:666
+abc-1217:fon:666
+abc-1218:fon:666
+abc-1219:fon:666
+abc-1210:fon:666
